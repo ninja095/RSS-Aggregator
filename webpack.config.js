@@ -1,27 +1,27 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
-
-import path from "path";
-import url from "url"
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import { GenerateSW } from "workbox-webpack-plugin";
+/* eslint-disable */
+import path from 'path';
+import url from 'url';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { GenerateSW } from 'workbox-webpack-plugin';
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const isProduction = process.env.NODE_ENV === "production";
+const isProduction = process.env.NODE_ENV === 'production';
 
 const config = {
-  entry: "./src/index.js",
+  entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, "public"),
+    path: path.resolve(__dirname, 'public'),
   },
   devServer: {
     open: true,
-    host: "localhost",
+    host: 'localhost',
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "index.html",
+      template: 'index.html',
     }),
 
     // Add your plugins here
@@ -31,7 +31,7 @@ const config = {
     rules: [
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        type: "asset",
+        type: 'asset',
       },
 
       // Add your rules for custom modules here
@@ -39,17 +39,17 @@ const config = {
     ],
   },
   resolve: {
-    extensions: [".js", ".jsx", ".json"],
+    extensions: ['.js', '.jsx', '.json'],
   },
 };
 
 export default () => {
   if (isProduction) {
-    config.mode = "production";
+    config.mode = 'production';
 
     config.plugins.push(new GenerateSW());
   } else {
-    config.mode = "development";
+    config.mode = 'development';
   }
   return config;
 };
