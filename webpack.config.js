@@ -1,8 +1,12 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
+import path from "path";
+import url from "url"
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import { GenerateSW } from "workbox-webpack-plugin";
+
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -34,13 +38,16 @@ const config = {
       // Learn more about loaders from https://webpack.js.org/loaders/
     ],
   },
+  resolve: {
+    extensions: [".js", ".jsx", ".json"],
+  },
 };
 
-module.exports = () => {
+export default () => {
   if (isProduction) {
     config.mode = "production";
 
-    config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
+    config.plugins.push(new GenerateSW());
   } else {
     config.mode = "development";
   }
