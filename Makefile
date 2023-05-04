@@ -2,6 +2,7 @@ develop:
 	npx webpack serve
 
 install:
+	npm install
 	npm ci
 
 lint:
