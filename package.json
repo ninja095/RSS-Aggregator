@@ -1,8 +1,8 @@
 {
-  "name": "my-webpack-project",
+  "name": "@hexlet/code",
   "version": "1.0.0",
   "type": "module",
-  "description": "My webpack project",
+  "description": "RSS aggregator",
   "main": "index.js",
   "devDependencies": {
     "@webpack-cli/generators": "^3.0.2",
