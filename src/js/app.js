@@ -19,9 +19,7 @@ const getAllOriginsResponse = (url) => {
 };
 
 const getHttpContents = (url) => getAllOriginsResponse(url)
-  .then((response) => {
-    return response.data.contents;
-  })
+  .then((response) => response.data.contents)
   .catch(() => { throw new Error('networkError'); });
 
 const addPosts = (feedId, items, state) => {

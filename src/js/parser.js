@@ -1,4 +1,3 @@
-
 const domParser = new DOMParser();
 
 export default (responseData) => {
