@@ -12,11 +12,12 @@ const __dirname = path.dirname(__filename);
 const isProduction = process.env.NODE_ENV === 'production';
 
 const config = {
-  entry: './src/index.js',
+  entry: './src/js/index.js',
   output: {
     path: path.resolve(__dirname, 'public'),
   },
   devServer: {
+    static: path.resolve(__dirname, 'public'),
     open: true,
     host: 'localhost',
   },
@@ -35,8 +36,12 @@ const config = {
         type: 'asset',
       },
       {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
+        test: /\.scss$/,
+        use: [
+          "style-loader", // Creates `style` nodes from JS strings
+          "css-loader", // Translates CSS into CommonJS
+          "sass-loader" // Compiles Sass to CSS
+        ]
       },
       // Add your rules for custom modules here
       // Learn more about loaders from https://webpack.js.org/loaders/
