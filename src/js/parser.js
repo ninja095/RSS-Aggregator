@@ -1,7 +1,7 @@
 export default (responseData) => {
   const domParser = new DOMParser();
   const xmlDocument = domParser.parseFromString(responseData, 'application/xml');
-  const errorNode = xmlDocument.querySelector("parsererror");
+  const errorNode = xmlDocument.querySelector('parsererror');
 
   if (errorNode) throw new Error('noRSS');
 

@@ -83,17 +83,17 @@ const handleFeeds = (container, feeds, i18nInstance) => {
 
 const handlePosts = (container, posts, seenIds, i18nInstance) => {
   // Создаем новый массив aggregatePosts, который будет содержать агрегированные данные
-  const aggregatePosts = posts.map(({ id, title, link }) => {
-    return {
-      id,
-      title,
-      link,
-      isSeen: seenIds.has(id),
-    };
-  });
+  const aggregatePosts = posts.map(({ id, title, link }) => ({
+    id,
+    title,
+    link,
+    isSeen: seenIds.has(id),
+  }));
 
   // используем агрегированные данные из массива aggregatePosts для создания списка элементов
-  const listElems = aggregatePosts.map(({ id, title, link, isSeen }) => {
+  const listElems = aggregatePosts.map(({
+    id, title, link, isSeen,
+  }) => {
     const listElem = buildElement('li', {
       style: ['list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0'],
     });
