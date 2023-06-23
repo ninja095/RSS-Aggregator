@@ -1,10 +1,9 @@
-const domParser = new DOMParser();
-
 export default (responseData) => {
-  const xmlDocument = domParser.parseFromString(responseData, 'text/xml');
-  const rootTagName = xmlDocument.documentElement.tagName.toLowerCase();
+  const domParser = new DOMParser();
+  const xmlDocument = domParser.parseFromString(responseData, 'application/xml');
+  const errorNode = xmlDocument.querySelector("parsererror");
 
-  if (rootTagName !== 'rss') throw new Error('noRSS');
+  if (errorNode) throw new Error('noRSS');
 
   const channel = xmlDocument.querySelector('channel');
   const channelTitle = xmlDocument.querySelector('channel title').textContent;

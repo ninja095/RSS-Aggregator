@@ -5,9 +5,9 @@ import axios from 'axios';
 import { string, setLocale } from 'yup';
 import resources from './locales/index.js';
 import render from './view.js';
-import parseRSS from './parser.js';
+import parse from './parser.js';
 
-const getAllOriginsResponse = (url) => {
+const addProxy = (url) => {
   const allOriginsLink = 'https://allorigins.hexlet.app/get';
 
   const workingUrl = new URL(allOriginsLink);
@@ -18,7 +18,7 @@ const getAllOriginsResponse = (url) => {
   return axios.get(workingUrl);
 };
 
-const getHttpContents = (url) => getAllOriginsResponse(url)
+const getHttpContents = (url) => addProxy(url)
   .then((response) => response.data.contents)
   .catch(() => { throw new Error('networkError'); });
 
@@ -34,7 +34,7 @@ const addPosts = (feedId, items, state) => {
 const trackUpdates = (feedIds, state, timeout = 5000) => {
   const inner = () => {
     const promises = state.feeds.map((feed) => getHttpContents(feed.link)
-      .then(parseRSS)
+      .then(parse)
       .catch((error) => ({ error })));
 
     Promise.allSettled(promises)
@@ -96,7 +96,7 @@ export default () => {
         form: {
           state: 'filling',
           url: '',
-          error: '',
+          error: null,
         },
 
         feeds: [],
@@ -130,7 +130,7 @@ export default () => {
 
             return getHttpContents(state.form.url);
           })
-          .then(parseRSS)
+          .then(parse)
           .then((parsedRSS) => {
             const feedId = uniqueId();
 

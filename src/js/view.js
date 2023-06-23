@@ -48,7 +48,7 @@ const handleErrors = (elements, error, i18nInstance) => {
   elements.feedback.classList.remove('text-success');
   elements.feedback.classList.add('text-danger');
 
-  if (error === '') {
+  if (!error) {
     elements.input.classList.remove('is-invalid');
     elements.feedback.textContent = '';
     return;
@@ -82,13 +82,24 @@ const handleFeeds = (container, feeds, i18nInstance) => {
 };
 
 const handlePosts = (container, posts, seenIds, i18nInstance) => {
-  const listElems = posts.map(({ id, title, link }) => {
+  // Создаем новый массив aggregatePosts, который будет содержать агрегированные данные
+  const aggregatePosts = posts.map(({ id, title, link }) => {
+    return {
+      id,
+      title,
+      link,
+      isSeen: seenIds.has(id),
+    };
+  });
+
+  // используем агрегированные данные из массива aggregatePosts для создания списка элементов
+  const listElems = aggregatePosts.map(({ id, title, link, isSeen }) => {
     const listElem = buildElement('li', {
       style: ['list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0'],
     });
 
     const linkElem = buildElement('a', {
-      style: seenIds.has(id) ? ['fw-normal'] : ['fw-bold'],
+      style: isSeen ? ['fw-normal'] : ['fw-bold'],
       textContent: title,
     });
 
@@ -112,6 +123,7 @@ const handlePosts = (container, posts, seenIds, i18nInstance) => {
     return listElem;
   });
 
+  // используем агрегированные данные для создания контейнера с постами
   const title = i18nInstance.t('posts');
   const postsContainer = buildContainer(title, listElems);
 
