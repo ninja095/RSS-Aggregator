@@ -1,20 +1,15 @@
 export default {
   translation: {
-    form: {
-      submit: 'Добавить',
-      loading: 'Подождите',
-    },
-    feeds: 'Фиды',
     posts: 'Посты',
-    preview: 'Просмотр',
+    feeds: 'Фиды',
     success: 'RSS успешно загружен',
-
+    button: 'Просмотр',
     errors: {
-      default: 'Неверные данные',
-      url: 'Ссылка должна быть валидным URL',
-      exist: 'RSS уже существует',
-      noRSS: 'Ресурс не содержит валидный RSS',
-      networkError: 'Ошибка сети',
+      invalidUrl: 'Ссылка должна быть валидным URL',
+      doubleRss: 'RSS уже существует',
+      emptyField: 'Поле не должно быть пустым',
+      parseError: 'Ресурс не содержит валидный RSS',
+      NetworkError: 'Ошибка сети',
     },
   },
 };
