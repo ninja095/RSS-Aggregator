@@ -28,6 +28,7 @@ const createPosts = (state, newPosts, feedId) => {
   const preparedPosts = newPosts.map((post) => ({ ...post, feedId, id: uniqueId() }));
   state.posts = [...state.posts, ...preparedPosts];
 };
+
 const timeout = 5000;
 const getNewPosts = (state) => {
   const promises = state.feeds
@@ -50,7 +51,6 @@ const getNewPosts = (state) => {
 
 export default () => {
   const defaultLanguage = 'ru';
-
   const i18nInstance = i18next.createInstance();
 
   i18nInstance

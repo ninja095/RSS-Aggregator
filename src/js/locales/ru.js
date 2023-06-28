@@ -8,7 +8,7 @@ export default {
       invalidUrl: 'Ссылка должна быть валидным URL',
       doubleRss: 'RSS уже существует',
       emptyField: 'Поле не должно быть пустым',
-      parseError: 'Ресурс не содержит валидный RSS',
+      noRSS: 'Ресурс не содержит валидный RSS',
       NetworkError: 'Ошибка сети',
     },
   },
