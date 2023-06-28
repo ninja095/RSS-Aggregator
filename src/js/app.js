@@ -8,7 +8,8 @@ import render from './view.js';
 import parser from './parser.js';
 
 const validateLink = (link, rssLinks) => {
-  const schema = string().trim().required().url().notOneOf(rssLinks);
+  const schema = string().trim().required().url()
+    .notOneOf(rssLinks);
   return schema.validate(link);
 };
 
@@ -43,10 +44,9 @@ const getNewPosts = (state) => {
 
   Promise.allSettled(promises)
     .finally(() => {
-      setTimeout(() => getNewPosts(state), timeout);
+      setTimeout(() => getNewPosts(state), 5000);
     });
 };
-
 
 export default () => {
   const defaultLanguage = 'ru';
@@ -60,7 +60,6 @@ export default () => {
       resources,
     })
     .then(() => {
-
       setLocale({
         mixed: {
           notOneOf: 'doubleRss',
@@ -125,7 +124,7 @@ export default () => {
 
             return addProxy(inputValue);
           })
-          .then(response => {
+          .then((response) => {
             const data = response.data.contents;
             const { feed, posts } = parser(data);
 
@@ -134,7 +133,6 @@ export default () => {
             createPosts(watchedState, posts, feedId);
 
             watchedState.loadingProcess.state = 'finished';
-
           })
           .catch((error) => {
             watchedState.valid = false;
