@@ -88,7 +88,7 @@ const renderModalWindow = (elements, state, postId) => {
 
   elements.modal.title.textContent = title;
   elements.modal.body.textContent = description;
-  elements.modal.button.setAttribute('href', link);
+  elements.modal.showFull.setAttribute('href', link);
 };
 
 const handlerSuccessFinish = (elements, i18nInstance) => {
