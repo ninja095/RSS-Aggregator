@@ -94,7 +94,7 @@ const renderModalWindow = (elements, state, postId) => {
 const handlerSuccessFinish = (elements, i18nInstance) => {
   elements.feedback.classList.remove('text-danger');
   elements.feedback.classList.add('text-success');
-  elements.feedback.textContent = i18nInstance.t('sucсess');
+  elements.feedback.textContent = i18nInstance.t('success');
 
   elements.button.removeAttribute('disabled');
 

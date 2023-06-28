@@ -28,7 +28,7 @@ const createPosts = (state, newPosts, feedId) => {
   const preparedPosts = newPosts.map((post) => ({ ...post, feedId, id: uniqueId() }));
   state.posts = [...state.posts, ...preparedPosts];
 };
-
+const timeout = 5000;
 const getNewPosts = (state) => {
   const promises = state.feeds
     .map(({ link, feedId }) => addProxy(link)
@@ -44,7 +44,7 @@ const getNewPosts = (state) => {
 
   Promise.allSettled(promises)
     .finally(() => {
-      setTimeout(() => getNewPosts(state), 5000);
+      setTimeout(() => getNewPosts(state), timeout);
     });
 };
 
@@ -87,11 +87,6 @@ export default () => {
 
       const initialState = {
         valid: true,
-        // form: {
-        //   state: 'filling',
-        //   error: null,
-        // },
-
         loadingProcess: {
           state: 'loading', // sending, finished, error
           error: null,
