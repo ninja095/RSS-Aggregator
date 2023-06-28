@@ -40,7 +40,6 @@ const getNewPosts = (state) => {
         if (newPosts.length > 0) {
           createPosts(state, newPosts, feedId);
         }
-        return Promise.resolve();
       }));
 
   Promise.allSettled(promises)
