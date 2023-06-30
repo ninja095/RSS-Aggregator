@@ -96,7 +96,7 @@ const handlerSuccessFinish = (elements, i18nInstance) => {
   elements.feedback.classList.add('text-success');
   elements.feedback.textContent = i18nInstance.t('success');
 
-  elements.button.removeAttribute('disabled');
+  elements.button.disabled = false;
 
   elements.input.removeAttribute('readonly');
   elements.input.classList.remove('is-invalid');
@@ -120,7 +120,12 @@ const handlerFinishWithError = (elements, error, i18nInstance) => {
 
 const handlerProcessState = (elements, state, value, i18nInstance) => {
   switch (value) {
+    case 'validating':
+      elements.button.disabled = true; // Блокируем кнопку отправки во время валидации
+      createContainer('input', elements, state, i18nInstance);
+      break;
     case 'loading':
+      createContainer('form', elements, state, i18nInstance);
       break;
     case 'finished':
       handlerSuccessFinish(elements, i18nInstance);
@@ -139,6 +144,10 @@ const handlerProcessState = (elements, state, value, i18nInstance) => {
 
 export default (elements, state, i18nInstance) => (path, value) => {
   switch (path) {
+    case 'validating':
+      handlerProcessState(elements, state, value, i18nInstance);
+      break;
+
     case 'loadingProcess.state':
       handlerProcessState(elements, state, value, i18nInstance);
       break;

@@ -86,10 +86,16 @@ export default () => {
 
       const initialState = {
         valid: true,
-        loadingProcess: {
-          state: 'loading', // sending, finished, error
+        form: {
+          state: 'filling', // error
           error: null,
         },
+
+        loadingProcess: {
+          state: 'loading', // sending, finished, error,
+          error: null,
+        },
+
         feeds: [],
         posts: [],
 
@@ -111,11 +117,18 @@ export default () => {
 
         const urlsList = watchedState.feeds.map(({ link }) => link);
 
+        if (watchedState.form.state === 'filling') { // Проверяем состояние формы
+          watchedState.loadingProcess.state = 'validating';
+        }
         validateLink(inputValue, urlsList)
           .then(() => {
             watchedState.valid = true;
             watchedState.loadingProcess.state = 'sending';
-
+            return addProxy(inputValue);
+          })
+          .then(() => {
+            watchedState.valid = true;
+            watchedState.loadingProcess.state = 'sending';
             return addProxy(inputValue);
           })
           .then((response) => {
