@@ -1,10 +1,3 @@
-/* Error: Can't find stylesheet to import.
- *   ,
- * 1 | @import "~bootstrap/scss/bootstrap";
- *   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- *   '
- *   styles.scss 1:9  root stylesheet */
-
 body::before {
   font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
       "Droid Sans Mono", monospace, monospace;
