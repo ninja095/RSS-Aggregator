@@ -143,7 +143,13 @@ export default () => {
           })
           .catch((error) => {
             watchedState.valid = false;
-            watchedState.loadingProcess.error = error.message ?? 'defaultError';
+            if (error.isAxiosError) {
+              watchedState.loadingProcess.error = 'Network Error';
+            } else if (error.isParsingError) {
+              watchedState.loadingProcess.error = 'noRSS';
+            } else {
+              watchedState.loadingProcess.error = error.message ?? 'defaultError';
+            }
             watchedState.loadingProcess.state = 'error';
           });
       });
