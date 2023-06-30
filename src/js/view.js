@@ -152,10 +152,6 @@ export default (elements, state, i18nInstance) => (path, value) => {
       handlerProcessState(elements, state, value, i18nInstance);
       break;
 
-    case 'loadingProcess.error':
-      handlerFinishWithError(elements, state.loadingProcess.error, i18nInstance);
-      break;
-
     case 'uiState.modalId':
       renderModalWindow(elements, state, value);
       break;

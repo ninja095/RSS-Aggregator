@@ -154,7 +154,7 @@ export default () => {
         watchedState.uiState.modalId = postId;
       });
 
-      elements.input.addEventListener('click', (e) => {
+      elements.posts.addEventListener('click', (e) => {
         const postId = e.target.dataset.id;
         if (postId) {
           watchedState.uiState.visitedLinksIds.add(postId);
