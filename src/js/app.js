@@ -13,7 +13,7 @@ const validateLink = (link, rssLinks) => {
   return schema.validate(link);
 };
 
-const addProxy = (url) => {
+const getAxios = (url) => {
   const allOriginsLink = 'https://allorigins.hexlet.app/get';
 
   const currentUrl = new URL(allOriginsLink);
@@ -32,7 +32,7 @@ const createPosts = (state, newPosts, feedId) => {
 const timeout = 5000;
 const getNewPosts = (state) => {
   const promises = state.feeds
-    .map(({ link, feedId }) => addProxy(link)
+    .map(({ link, feedId }) => getAxios(link)
       .then((response) => {
         const { posts } = parser(response.data.contents);
         const addedPosts = state.posts.map((post) => post.link);
@@ -124,12 +124,12 @@ export default () => {
           .then(() => {
             watchedState.valid = true;
             watchedState.loadingProcess.state = 'sending';
-            return addProxy(inputValue);
+            return getAxios(inputValue);
           })
           .then(() => {
             watchedState.valid = true;
             watchedState.loadingProcess.state = 'sending';
-            return addProxy(inputValue);
+            return getAxios(inputValue);
           })
           .then((response) => {
             const data = response.data.contents;
