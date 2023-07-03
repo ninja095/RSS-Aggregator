@@ -96,7 +96,7 @@ export default () => {
         },
 
         loadingProcess: {
-          state: 'filling', // loading, sending, finished, error,
+          state: 'waiting', // loading, sending, finished, error,
           error: null,
         },
 
@@ -121,9 +121,6 @@ export default () => {
 
         const urlsList = watchedState.feeds.map(({ link }) => link);
 
-        // if (watchedState.form.state === 'filling') { // Проверяем состояние формы
-        //   watchedState.loadingProcess.state = 'validating';
-        // }
         validateLink(inputValue, urlsList)
           .then(() => {
             watchedState.valid = true;
