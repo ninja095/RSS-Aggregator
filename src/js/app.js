@@ -13,15 +13,19 @@ const validateLink = (link, rssLinks) => {
   return schema.validate(link);
 };
 
-const getAxios = (url) => {
+const buildProxyUrl = (url) => {
   const allOriginsLink = 'https://allorigins.hexlet.app/get';
+  const proxyUrl = new URL(allOriginsLink);
 
-  const currentUrl = new URL(allOriginsLink);
+  proxyUrl.searchParams.set('disableCache', 'true');
+  proxyUrl.searchParams.set('url', url);
 
-  currentUrl.searchParams.set('disableCache', 'true');
-  currentUrl.searchParams.set('url', url);
+  return proxyUrl.toString();
+};
 
-  return axios.get(currentUrl);
+const fetchData = (url) => {
+  const proxyUrl = buildProxyUrl(url);
+  return axios.get(proxyUrl);
 };
 
 const createPosts = (state, newPosts, feedId) => {
@@ -32,7 +36,7 @@ const createPosts = (state, newPosts, feedId) => {
 const timeout = 5000;
 const getNewPosts = (state) => {
   const promises = state.feeds
-    .map(({ link, feedId }) => getAxios(link)
+    .map(({ link, feedId }) => fetchData(link)
       .then((response) => {
         const { posts } = parser(response.data.contents);
         const addedPosts = state.posts.map((post) => post.link);
@@ -124,12 +128,12 @@ export default () => {
           .then(() => {
             watchedState.valid = true;
             watchedState.loadingProcess.state = 'sending';
-            return getAxios(inputValue);
+            return fetchData(inputValue);
           })
           .then(() => {
             watchedState.valid = true;
             watchedState.loadingProcess.state = 'sending';
-            return getAxios(inputValue);
+            return fetchData(inputValue);
           })
           .then((response) => {
             const data = response.data.contents;
