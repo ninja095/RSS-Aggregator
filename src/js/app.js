@@ -130,11 +130,6 @@ export default () => {
             watchedState.loadingProcess.state = 'sending';
             return fetchData(inputValue);
           })
-          .then(() => {
-            watchedState.valid = true;
-            watchedState.loadingProcess.state = 'sending';
-            return fetchData(inputValue);
-          })
           .then((response) => {
             const data = response.data.contents;
             const { feed, posts } = parser(data);
