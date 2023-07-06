@@ -120,9 +120,9 @@ const handlerFinishWithError = (elements, error, i18nInstance) => {
 
 const handlerProcessState = (elements, state, value, i18nInstance) => {
   switch (value) {
-    case 'loading':
-      elements.button.disabled = true; // Блокируем кнопку отправки во время валидации
-      createContainer('input', elements, state, i18nInstance);
+    case 'validating':
+      elements.button.disabled = true;
+      elements.input.getAttribute('readonly');
       break;
     case 'finished':
       handlerSuccessFinish(elements, i18nInstance);
@@ -131,7 +131,7 @@ const handlerProcessState = (elements, state, value, i18nInstance) => {
       handlerFinishWithError(elements, state.loadingProcess.error, i18nInstance);
       break;
     case 'sending':
-      elements.button.getAttribute('disabled');
+      elements.button.disabled = true;
       elements.input.getAttribute('readonly');
       break;
     default:
@@ -141,7 +141,7 @@ const handlerProcessState = (elements, state, value, i18nInstance) => {
 
 export default (elements, state, i18nInstance) => (path, value) => {
   switch (path) {
-    case 'loading':
+    case 'validating':
       handlerProcessState(elements, state, value, i18nInstance);
       break;
 

@@ -89,9 +89,8 @@ export default () => {
       };
 
       const initialState = {
-        valid: true,
         form: {
-          state: 'filling', // error
+          state: 'filling', // error, valid, validating
           error: null,
         },
 
@@ -121,13 +120,11 @@ export default () => {
 
         const urlsList = watchedState.feeds.map(({ link }) => link);
 
+        watchedState.form.state = 'validating';
+
         validateLink(inputValue, urlsList)
           .then(() => {
-            watchedState.valid = true;
-            watchedState.loadingProcess.state = 'loading';
-          })
-          .then(() => {
-            watchedState.valid = true;
+            watchedState.form.state = 'valid';
             watchedState.loadingProcess.state = 'sending';
             return fetchData(inputValue);
           })
@@ -142,7 +139,7 @@ export default () => {
             watchedState.loadingProcess.state = 'finished';
           })
           .catch((error) => {
-            watchedState.valid = false;
+            watchedState.form.state = 'error';
             if (error.isAxiosError) {
               watchedState.loadingProcess.error = 'Network Error';
             } else if (error.isParsingError) {
