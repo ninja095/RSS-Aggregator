@@ -73,13 +73,9 @@ const createContainer = (type, elements, state, i18nInstance) => {
   divCard.append(divCardBody);
   elements[type].append(divCard);
 
-  if (type === 'posts') {
-    renderPosts(state, divCard, i18nInstance);
-  }
+  renderPosts(state, divCard, i18nInstance);
 
-  if (type === 'feeds') {
-    renderFeeds(state, divCard);
-  }
+  renderFeeds(state, divCard);
 };
 
 const renderModalWindow = (elements, state, postId) => {
@@ -120,7 +116,7 @@ const handlerFinishWithError = (elements, error, i18nInstance) => {
 
 const handlerProcessState = (elements, state, value, i18nInstance) => {
   switch (value) {
-    case 'validating':
+    case 'sending':
       elements.button.disabled = true;
       elements.input.getAttribute('readonly');
       break;
@@ -130,10 +126,7 @@ const handlerProcessState = (elements, state, value, i18nInstance) => {
     case 'error':
       handlerFinishWithError(elements, state.loadingProcess.error, i18nInstance);
       break;
-    case 'sending':
-      elements.button.disabled = true;
-      elements.input.getAttribute('readonly');
-      break;
+
     default:
       throw new Error(`Unknown process state: ${value}`);
   }
@@ -141,8 +134,9 @@ const handlerProcessState = (elements, state, value, i18nInstance) => {
 
 export default (elements, state, i18nInstance) => (path, value) => {
   switch (path) {
-    case 'validating':
-      handlerProcessState(elements, state, value, i18nInstance);
+    case 'form.validating':
+      elements.button.disabled = true;
+      elements.input.getAttribute('readonly');
       break;
 
     case 'loadingProcess.state':

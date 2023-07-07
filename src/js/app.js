@@ -95,7 +95,7 @@ export default () => {
         },
 
         loadingProcess: {
-          state: 'waiting', // loading, sending, finished, error,
+          state: 'waiting', // loading, finished, error,
           error: null,
         },
 
@@ -126,28 +126,32 @@ export default () => {
           .then(() => {
             watchedState.form.state = 'valid';
             watchedState.loadingProcess.state = 'sending';
-            return fetchData(inputValue);
-          })
-          .then((response) => {
-            const data = response.data.contents;
-            const { feed, posts } = parser(data);
+            fetchData(inputValue)
+              .then((response) => {
+                const data = response.data.contents;
+                const {feed, posts} = parser(data);
 
-            const feedId = uniqueId();
-            watchedState.feeds.push({ ...feed, feedId, link: inputValue });
-            createPosts(watchedState, posts, feedId);
+                const feedId = uniqueId();
+                watchedState.feeds.push({...feed, feedId, link: inputValue});
+                createPosts(watchedState, posts, feedId);
 
-            watchedState.loadingProcess.state = 'finished';
+                watchedState.loadingProcess.state = 'finished';
+              })
+              .catch((requestError) => {
+                watchedState.form.state = 'error';
+                if (requestError.isAxiosError) {
+                  watchedState.loadingProcess.error = 'Network Error';
+                } else if (requestError.isParsingError) {
+                  watchedState.loadingProcess.error = 'noRSS';
+                } else {
+                  watchedState.loadingProcess.error = requestError.message ?? 'defaultError';
+                }
+                watchedState.loadingProcess.state = 'error';
+              })
           })
-          .catch((error) => {
+          .catch((validationError) => {
             watchedState.form.state = 'error';
-            if (error.isAxiosError) {
-              watchedState.loadingProcess.error = 'Network Error';
-            } else if (error.isParsingError) {
-              watchedState.loadingProcess.error = 'noRSS';
-            } else {
-              watchedState.loadingProcess.error = error.message ?? 'defaultError';
-            }
-            watchedState.loadingProcess.state = 'error';
+            watchedState.form.error = validationError.message ?? 'defaultError';
           });
       });
 
