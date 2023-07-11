@@ -131,12 +131,28 @@ const handlerProcessState = (elements, state, value, i18nInstance) => {
       throw new Error(`Unknown process state: ${value}`);
   }
 };
+const handlerProcessStateForm = (elements, state, value, i18nInstance) => {
+  switch (value) {
+    case 'validating':
+      elements.button.disabled = true;
+      elements.input.getAttribute('readonly');
+      break;
+    case 'valid':
+      handlerSuccessFinish(elements, i18nInstance);
+      break;
+    case 'error':
+      handlerFinishWithError(elements, state.form.error, i18nInstance);
+      break;
+
+    default:
+      throw new Error(`Unknown process state: ${value}`);
+  }
+};
 
 export default (elements, state, i18nInstance) => (path, value) => {
   switch (path) {
-    case 'form.validating':
-      elements.button.disabled = true;
-      elements.input.getAttribute('readonly');
+    case 'form.state':
+      handlerProcessStateForm(elements, state, value, i18nInstance)
       break;
 
     case 'loadingProcess.state':
