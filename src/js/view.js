@@ -123,7 +123,6 @@ const handlerLoadingProcessState = (elements, state, value, i18nInstance) => {
     case 'finished':
       handlerSuccessFinish(elements, i18nInstance);
       break;
-
     case 'error':
       handlerFinishWithError(elements, state.loadingProcess.error, i18nInstance);
       break;

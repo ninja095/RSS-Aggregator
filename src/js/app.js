@@ -95,7 +95,7 @@ export default () => {
         },
 
         loadingProcess: {
-          state: 'waiting', //finished, error,
+          state: 'waiting', // finished, error,
           error: null,
         },
 
