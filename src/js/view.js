@@ -104,9 +104,7 @@ const handlerSuccessFinish = (elements, i18nInstance) => {
 const handlerFinishWithError = (elements, error, i18nInstance) => {
   elements.feedback.classList.remove('text-success');
   elements.feedback.classList.add('text-danger');
-  console.log('elements.feedback.textContent', error);
   elements.feedback.textContent = i18nInstance.t(`errors.${error.replace(/ /g, '')}`);
-  console.log('elements.feedback.textContent', elements.feedback.textContent);
 
   if (error !== 'Network Error') {
     elements.input.classList.add('is-invalid');
@@ -116,7 +114,7 @@ const handlerFinishWithError = (elements, error, i18nInstance) => {
   elements.input.disabled = false;
 };
 
-const handlerProcessState = (elements, state, value, i18nInstance) => {
+const handlerLoadingProcessState = (elements, state, value, i18nInstance) => {
   switch (value) {
     case 'sending':
       elements.button.disabled = true;
@@ -124,12 +122,10 @@ const handlerProcessState = (elements, state, value, i18nInstance) => {
       break;
     case 'finished':
       handlerSuccessFinish(elements, i18nInstance);
-      console.log('value - handlerProcessState handlerSuccessFinish = ', value);
 
       break;
     case 'error':
       handlerFinishWithError(elements, state.loadingProcess.error, i18nInstance);
-      console.log('value - handlerFinishWithError handlerProcessState = ', value);
       break;
 
     default:
@@ -144,11 +140,9 @@ const handlerProcessStateForm = (elements, state, value, i18nInstance) => {
       break;
     case 'valid':
       handlerSuccessFinish(elements, i18nInstance);
-      console.log('value - handlerProcessStateForm handlerSuccessFinish = ', value);
       break;
     case 'error':
       handlerFinishWithError(elements, state.form.error, i18nInstance);
-      console.log('value - handlerProcessStateForm - handlerFinishWithError = ', value);
       break;
 
     default:
@@ -160,14 +154,10 @@ export default (elements, state, i18nInstance) => (path, value) => {
   switch (path) {
     case 'form.state':
       handlerProcessStateForm(elements, state, value, i18nInstance);
-
-      console.log('value - handlerProcessStateForm = ', value);
       break;
 
     case 'loadingProcess.state':
-      handlerProcessState(elements, state, value, i18nInstance);
-
-      console.log('value - handlerProcessState = ', value);
+      handlerLoadingProcessState(elements, state, value, i18nInstance);
       break;
 
     case 'uiState.modalId':

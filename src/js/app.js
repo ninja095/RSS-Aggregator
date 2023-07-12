@@ -124,7 +124,6 @@ export default () => {
 
         validateLink(inputValue, urlsList)
           .then(() => {
-            watchedState.form.state = 'valid';
             fetchData(inputValue)
               .then((response) => {
                 watchedState.loadingProcess.state = 'sending';
@@ -134,20 +133,17 @@ export default () => {
 
                 const feedId = uniqueId();
                 watchedState.feeds.push({...feed, feedId, link: inputValue});
+
                 createPosts(watchedState, posts, feedId);
 
+                watchedState.form.state = 'valid';
                 watchedState.loadingProcess.state = 'finished';
               })
               .catch((requestError) => {
-
-                console.log('state loadingProcess', watchedState.loadingProcess.state);
-
                 if (requestError.isAxiosError) {
                   watchedState.loadingProcess.error = 'Network Error';
-                  console.log('Network Error isAxiosError', watchedState.loadingProcess.error);
                 } else if (requestError.isParsingError) {
                   watchedState.loadingProcess.error = 'noRSS';
-                  console.log('isParsingError', watchedState.loadingProcess.error)
                 } else {
                   watchedState.loadingProcess.error = requestError.message ?? 'defaultError';
                 }
@@ -155,11 +151,7 @@ export default () => {
               })
           })
           .catch((validationError) => {
-
-            console.log('state form', watchedState.form.state);
-
             watchedState.form.error = validationError.message ?? 'defaultError';
-            console.log('validationError form', watchedState.form.error)
             watchedState.form.state = 'error';
           });
       });
@@ -176,63 +168,5 @@ export default () => {
           watchedState.uiState.visitedLinksIds.add(postId);
         }
       });
-
-      // elements.form.addEventListener("submit", (e=>{
-      //     e.preventDefault();
-      //     const t = new FormData(e.target).get("url");
-      //     ((e,t)=>{
-      //         const n = t.map((e=>e.url));
-      //         return i.notOneOf(n).validate(e).then((()=>null)).catch((e=>e.message))
-      //       }
-      //     )(t, s.feeds).then((e=>{
-      //         e ? s.form = {
-      //           ...s.form,
-      //           valid: !1,
-      //           error: e.key
-      //         } : (s.form = {
-      //           ...s.form,
-      //           valid: !0,
-      //           error: null
-      //         },
-      //           ((e,t)=>{
-      //               e.loadingProcess.status = "loading";
-      //               const n = jo(t);
-      //               Ci.get(n, {
-      //                 timeout: 1e4
-      //               }).then((n=>{
-      //                   const r = Hs(n.data.contents)
-      //                     , i = {
-      //                     url: t,
-      //                     id: Ai(),
-      //                     title: r.title,
-      //                     description: r.descrpition
-      //                   }
-      //                     , s = r.items.map((e=>({
-      //                     ...e,
-      //                     channelId: i.id,
-      //                     id: Ai()
-      //                   })));
-      //                   e.posts.unshift(...s),
-      //                     e.feeds.unshift(i),
-      //                     e.loadingProcess.error = null,
-      //                     e.loadingProcess.status = "idle",
-      //                     e.form = {
-      //                       ...e.form,
-      //                       status: "filling",
-      //                       error: null
-      //                     }
-      //                 }
-      //               )).catch((t=>{
-      //                   console.log(t),
-      //                     e.loadingProcess.error = (e=>e.isParsingError ? "noRss" : e.isAxiosError ? "network" : "unknown")(t),
-      //                     e.loadingProcess.status = "failed"
-      //                 }
-      //               ))
-      //             }
-      //           )(s, t))
-      //       }
-      //     ))
-      //   }
-      // ));
     });
 };
