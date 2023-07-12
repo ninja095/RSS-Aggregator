@@ -95,7 +95,7 @@ export default () => {
         },
 
         loadingProcess: {
-          state: 'waiting', // loading, finished, error,
+          state: 'waiting', //finished, error,
           error: null,
         },
 
@@ -126,8 +126,6 @@ export default () => {
           .then(() => {
             fetchData(inputValue)
               .then((response) => {
-                watchedState.loadingProcess.state = 'sending';
-
                 const data = response.data.contents;
                 const { feed, posts } = parser(data);
 

@@ -120,14 +120,10 @@ const handlerFinishWithError = (elements, error, i18nInstance) => {
 
 const handlerLoadingProcessState = (elements, state, value, i18nInstance) => {
   switch (value) {
-    case 'sending':
-      elements.button.disabled = true;
-      elements.input.getAttribute('readonly');
-      break;
     case 'finished':
       handlerSuccessFinish(elements, i18nInstance);
-
       break;
+
     case 'error':
       handlerFinishWithError(elements, state.loadingProcess.error, i18nInstance);
       break;
