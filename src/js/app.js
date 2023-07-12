@@ -90,7 +90,7 @@ export default () => {
 
       const initialState = {
         form: {
-          state: 'filling', //validating, valid, error
+          state: 'filling', // validating, valid, error
           error: null,
         },
 
@@ -129,10 +129,10 @@ export default () => {
                 watchedState.loadingProcess.state = 'sending';
 
                 const data = response.data.contents;
-                const {feed, posts} = parser(data);
+                const { feed, posts } = parser(data);
 
                 const feedId = uniqueId();
-                watchedState.feeds.push({...feed, feedId, link: inputValue});
+                watchedState.feeds.push({ ...feed, feedId, link: inputValue });
 
                 createPosts(watchedState, posts, feedId);
 
@@ -148,7 +148,7 @@ export default () => {
                   watchedState.loadingProcess.error = requestError.message ?? 'defaultError';
                 }
                 watchedState.loadingProcess.state = 'error';
-              })
+              });
           })
           .catch((validationError) => {
             watchedState.form.error = validationError.message ?? 'defaultError';
