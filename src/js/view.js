@@ -73,7 +73,6 @@ const createContainer = (type, elements, state, i18nInstance) => {
   divCard.append(divCardBody);
   elements[type].append(divCard);
 
-
   if (type === 'posts') {
     renderPosts(state, divCard, i18nInstance);
   }
